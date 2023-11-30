@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>img2rice</title>
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}" />
+	<script src="{{ url_for('static', filename='js/vue.global.js') }}" defer></script>
+	<script src="{{ url_for('static', filename='js/script.js')}}" defer></script>
+</head>
+
+<body>
+	<div id="app">
+
+		<header>
+			<a href="/">
+				<h1>🖼️ img2rice 🍚</h1>
+			</a>
+		</header>
+
+		<main>
+
+			<label id="image-input">
+				<input type="file" @change="onImageInputChange">
+				<img :src="image64" v-if="image64">
+				<span v-else>Click to upload image</span>
+			</label>
+
+			<div id="options">
+				<div id="palette-selection">
+					<label v-for="palette, name in palettes">
+						<input type="radio" name="palette-option" :value="name" v-model="selectedPalettePreset"> ${ name }
+					</label>
+					<label>
+						<input type="radio" name="palette-option" value="custom" v-model="selectedPalettePreset"> Custom palette
+					</label>
+					<textarea :disabled="selectedPalettePreset !== 'custom'" v-model="customPalette" rows="10"></textarea>
+					<!-- <div id="palette-preview">
+						<div v-for="palette in colorPalette" :style="{backgroundColor: palette}"></div>
+					</div> -->
+				</div>
+				<button type="button" id="convert-button" @click="onClickButtonConvert">Convert</button>
+			</div>
+
+		</main>
+
+		<footer>
+			<div>Copyright {{ year }}</div>
+			<div>
+				<a href="https://github.com/CarterSnich/img2rice" class="footer-links">
+					<img src="{{ url_for('static', filename='img/github-original.svg') }}" alt="GitHub" height="24" width="24">
+				</a>
+			</div>
+		</footer>
+
+	</div>
+</body>
+
+</html>

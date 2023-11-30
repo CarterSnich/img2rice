@@ -1,0 +1,122 @@
+:root {
+	--border: 1px solid grey;
+	--border-radius: calc(1rem / 4);
+}
+
+* {
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: monospace;
+}
+
+#app {
+	height: 100svh;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	display: flex;
+	padding: 1rem;
+}
+
+header a {
+	text-decoration: none;
+	color: inherit;
+}
+
+header h1 {
+	margin: 0;
+}
+
+main {
+	flex-grow: 1;
+
+	display: flex;
+	gap: 1rem;
+	padding-inline: 1rem;
+	overflow: hidden;
+}
+
+#image-input {
+	flex-grow: 1;
+
+	display: flex;
+	place-content: center;
+	align-items: center;
+	border: var(--border);
+	border-radius: var(--border-radius);
+	height: 100%;
+
+	overflow: hidden;
+}
+#image-input > input[type="file"] {
+	display: none;
+}
+
+#image-input > img {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#options {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	min-width: 300px;
+	max-width: 300px;
+}
+
+#options input[type="radio"],
+#options textarea {
+	margin-left: 0.5rem;
+}
+
+#palette-selection {
+	flex-grow: 1;
+	flex-basis: 0;
+	padding: 0.25rem;
+	border: var(--border);
+	border-radius: var(--border-radius);
+
+	display: flex;
+	flex-direction: column;
+}
+
+#palette-selection textarea {
+	margin-top: 0.5rem;
+	resize: none;
+}
+
+#palette-preview {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#palette-preview > div {
+	height: 64px;
+	width: 64px;
+}
+
+#convert-button {
+	border: var(--border);
+	border-radius: var(--border-radius);
+}
+
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+}
+
+.footer-links > img {
+	display: block;
+	line-height: 1;
+}

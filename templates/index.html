@@ -44,6 +44,7 @@
 				<button type="button" id="convert-button" @click="onClickButtonConvert">Convert</button>
 			</div>
 
+
 		</main>
 
 		<footer>
@@ -54,6 +55,14 @@
 				</a>
 			</div>
 		</footer>
+
+		<div id="loading-overlay" :class="{ show: isLoading != 0 }">
+			<span :class="{show: isLoading == 1}">Converting. Please wait...</span>
+			<div :class="{show: isLoading == 2}">
+				<span>Conversion done. Click <a :href="blobUrl" :download="downloadFilename">here</a> to download.</span>
+				<button type="button" @click="onClickCloseButton">Close</button>
+			</div>
+		</div>
 
 	</div>
 </body>

@@ -13,6 +13,13 @@ const app = createApp({
 		const colorPalette = ref([]);
 		const customPalette = ref("");
 
+		// loading indicator
+		const isLoading = ref(0);
+
+		// download
+		const blobUrl = ref("");
+		const downloadFilename = ref("");
+
 		onBeforeMount(() => {
 			(async () => {
 				try {
@@ -24,8 +31,6 @@ const app = createApp({
 				}
 			})();
 		});
-
-		watch(imageInput, (val) => {});
 
 		watch(selectedPalettePreset, (val) => {
 			colorPalette.value = palettes.value[val];
@@ -58,6 +63,11 @@ const app = createApp({
 			}
 		}
 
+		// close button
+		function onClickCloseButton(e) {
+			isLoading.value = 0; // converted|download, and closed
+		}
+
 		// button convert
 		async function onClickButtonConvert(e) {
 			const body = new FormData();
@@ -65,32 +75,26 @@ const app = createApp({
 			body.append("colorPalette", JSON.stringify(colorPalette.value));
 
 			try {
+				isLoading.value = 1; // converting
 				const response = await fetch("convert", {
 					headers: {},
 					method: "POST",
 					body: body,
 				});
 				const data = await response.blob();
+				isLoading.value = 2; // for download
 
 				// get file name
 				const cd = response.headers.get("Content-Disposition");
 				const match = cd.match(/filename=([^;]+)/);
 				const filename = match && match[1];
 
-				console.log(cd);
-				console.log(match);
-				console.log(filename);
-
 				// convert file to blob and download
-				const blobUrl = URL.createObjectURL(data);
-				const downloadLink = document.createElement("a");
-				downloadLink.href = blobUrl;
-				downloadLink.download = filename;
-				document.body.appendChild(downloadLink);
-				downloadLink.click();
-				document.body.removeChild(downloadLink);
+				blobUrl.value = URL.createObjectURL(data);
+				downloadFilename.value = filename;
 			} catch (err) {
 				console.error(err);
+				alert(err);
 			}
 		}
 
@@ -110,10 +114,18 @@ const app = createApp({
 			// image input
 			image64,
 
+			// loading indicator
+			isLoading,
+
+			// download
+			blobUrl,
+			downloadFilename,
+
 			// event handlers
 			onClickAddColorBtn,
 			onImageInputChange,
 			onClickButtonConvert,
+			onClickCloseButton,
 		};
 	},
 });
